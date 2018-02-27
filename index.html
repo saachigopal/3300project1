@@ -1,14 +1,66 @@
 <script src="https://d3js.org/d3.v4.min.js"></script>
-<svg width="600" height="600"></svg>
+<p style="font-family:avenir; font-size:25; text-align:center"> 2018 United States Senate Election Forecast vs. State Economic Growth </p>
+
+<div style="text-align:center">
+<svg width="730" height="730"></svg>
+
 <script>
-var svg = d3.select("svg");
-var xscale = d3.scaleLinear().domain([0,6]).range([0,580]);
-var yscale = d3.scaleLinear().domain([0,100]).range([580,0]);
-var xaxis = d3.axisBottom(xscale).tickValues([]).tickSizeOuter(0);
-svg.append("g").attr("transform","translate(50,580)").call(xaxis)
-    .selectAll("text").remove();
-var yaxis = d3.axisLeft(yscale).tickValues([]).tickSizeOuter(0);
-svg.append("g").attr("transform","translate(50,0)").call(yaxis)
-    .selectAll("text").remove();
+var stateData;
+d3.json("projectdata.json", function(data) {
+    stateData = data;
+    console.log(stateData);
+    showGraph();
+});
+function showGraph() {
+    var svg = d3.select("svg");
+    var xscale = d3.scaleLinear().domain([0,5.5]).range([0,640]);
+    var yscale = d3.scaleLinear().domain([0,100]).range([640,0]);
+    var rscale = d3.scaleLinear().domain([500000,40000000]).range([10,40]);
+    var xaxis = d3.axisBottom(xscale);
+    svg.append("g").attr("transform","translate(50,650)").call(xaxis);
+    var yaxis = d3.axisLeft(yscale);
+    svg.append("g").attr("transform","translate(50,10)").call(yaxis);
+
+    svg.append("text").text("Probability of Democratic Victory (%)")
+        .attr("x","0")
+        .attr("y","25")
+        .attr("transform","translate(-10,460) rotate(-90)")
+        .style("font-family","avenir")
+        .style("font-size","16");
+
+    svg.append("text").text("Change in State GDP  (%)")
+        .attr("x","250")
+        .attr("y","695")
+        .style("font-family","avenir")
+        .style("font-size","16");
+    
+    for (var i=0; i < stateData.length; i++) {
+        svg.append("circle")
+        .attr("cx", 50+xscale(stateData[i].changeGDP))
+        .attr("cy", 10+yscale(stateData[i].ProbabilityDem))
+        .attr("r", rscale(stateData[i].Population))
+        .attr("fill",function(d) {
+            if (stateData[i].IncParty == "D") {
+                return "#139FF1";
+            }
+            else if (stateData[i].IncParty == "R") {
+                return "#E00018";
+            }
+            else {
+                return "#4B0082";
+            }
+        })
+        .attr("stroke","black");
+        svg.append("text").text(stateData[i].State)
+        .attr("x", 50 + rscale(stateData[i].Population) + xscale(stateData[i].changeGDP))
+        .attr("y", 20 + yscale(stateData[i].ProbabilityDem))
+        .style("font-family", "avenir");
+        
+    }
+
+}    
+
+
 
 </script>
+</div>
