@@ -1,0 +1,14 @@
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<svg width="600" height="600"></svg>
+<script>
+var svg = d3.select("svg");
+var xscale = d3.scaleLinear().domain([0,6]).range([0,580]);
+var yscale = d3.scaleLinear().domain([0,100]).range([580,0]);
+var xaxis = d3.axisBottom(xscale).tickValues([]).tickSizeOuter(0);
+svg.append("g").attr("transform","translate(50,580)").call(xaxis)
+    .selectAll("text").remove();
+var yaxis = d3.axisLeft(yscale).tickValues([]).tickSizeOuter(0);
+svg.append("g").attr("transform","translate(50,0)").call(yaxis)
+    .selectAll("text").remove();
+
+</script>
