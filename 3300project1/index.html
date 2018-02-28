@@ -65,24 +65,20 @@ function showGraph() {
 </script>
 </div>
 
-<div id="map"></div>
+<div id="map" style="text-align:center"></div>
 
 <div>Data from <a href="http://www.ers.usda.gov/data-products/atlas-of-rural-and-small-town-america.aspx">USDA Atlas of Rural and Small-Town America</a>.</div>
 
-<script id="notes">
+<script>
 
 var svg = d3.select("#map").append("svg").attr("height","1000").attr("width","1000");
 
+
 var projection = d3.geoAlbersUsa().scale(75);
 var pathGenerator = d3.geoPath().projection(projection);
-
-var divergingColors = ["#d8b365", "#f5f5f5", "#5ab4ac"];
-var sequentialColors = ['#edf8fb','#b2e2e2','#66c2a4','#2ca25f','#006d2c'];
-
-var populationScale = d3.scaleLinear().domain([-5, 0, 5]).range(divergingColors);
-var percentScale = d3.scaleLinear().domain([0, 25, 50, 75, 100]).range(sequentialColors);
-
-var counties, states;
+var sequentialColors = ["#ffffff", "#983d3d","#E91D0E","#B0CEFF","#49BFF5","#34AAE0","#3333FF","#232066"];
+var percentScale = d3.scaleLinear().domain([0, 5, 45, 50, 60, 70, 85, 100]).range(sequentialColors);
+var states;
 var usdaAtlas;
 
 // function to handle any row-by-row processing on CSV
@@ -101,52 +97,42 @@ function callback (error, rawMap, rawUSDA) {
   console.log("Code in the call-back function is only executed when every data file loads.");
 
 usdaAtlas = d3.map(rawUSDA, function(d){
-  return d.FIPS;
+  return Number(d.FIPS);
 });
 
-  counties = topojson.feature(rawMap, rawMap.objects.counties);
   states = topojson.feature(rawMap, rawMap.objects.states);
 
-  showMap(percentScale, "Ed5CollegePlusPct");
+  showMap(percentScale, "ProbabilityOfDemWin");
 }
 
 function showMap(scale, variable) {
   // Create or modify paths for each country
 
-  projection.fitExtent([[0,0], [svg.attr("width"), svg.attr("height")]], counties);
+  projection.fitExtent([[0,0], [svg.attr("width"), svg.attr("height")]], states);
   pathGenerator = d3.geoPath().projection(projection);
+  
+  var paths = svg.selectAll("path.state").data(states.features);
 
-  var paths = svg.selectAll("path.country").data(states.features);
-
-  paths = paths.enter().append("path").attr("class", "country")
-  .on("click", function (d) { console.log(d.id); })
+  paths = paths.enter().append("path").attr("class", "state")
   .merge(paths);
 
   paths
-  .transition().duration(1000)
   .style("fill", function (state) {
-
+      var stateData = usdaAtlas.get(state.id)
+      
+      if (stateData){
+          //console.log(stateData[variable])
+          return scale(stateData[variable]);
+      }
   })
   .attr("d", function (state) {
-    return pathGenerator(state);
+      return pathGenerator(state);
   });
 
 }
 
-
-
 console.log("Code after the d3.json() call is executed immediately.");
 
-</script>
-
-<!-- This block will be automatically filled with syntax-highlighted code from the script below -->
-<pre><code id="display">
-</code></pre>
-
-
-<script>
-document.getElementById("display").innerText = document.getElementById("notes").innerText;
-hljs.initHighlightingOnLoad();
 </script>
 
 
