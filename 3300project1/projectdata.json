@@ -1,0 +1,226 @@
+[
+  {
+    "State": "CA",
+    "Population": 39776830,
+    "IncParty": "D",
+    "ProbabilityDem": 95,
+    "changeGDP": 2.03
+  },
+  {
+    "State": "TX",
+    "Population": 28704330,
+    "IncParty": "R",
+    "ProbabilityDem": 8,
+    "changeGDP": 5.23
+  },
+  {
+    "State": "FL",
+    "Population": 21312211,
+    "IncParty": "D",
+    "ProbabilityDem": 62,
+    "changeGDP": 2.87
+  },
+  {
+    "State": "NY",
+    "Population": 19862512,
+    "IncParty": "D",
+    "ProbabilityDem": 95,
+    "changeGDP": 2.5
+  },
+  {
+    "State": "PA",
+    "Population": 12823989,
+    "IncParty": "D",
+    "ProbabilityDem": 82,
+    "changeGDP": 2
+  },
+  {
+    "State": "OH",
+    "Population": 11694664,
+    "IncParty": "D",
+    "ProbabilityDem": 75,
+    "changeGDP": 2.4
+  },
+  {
+    "State": "MI",
+    "Population": 9991177,
+    "IncParty": "D",
+    "ProbabilityDem": 88,
+    "changeGDP": 2.97
+  },
+  {
+    "State": "NJ",
+    "Population": 9032872,
+    "IncParty": "D",
+    "ProbabilityDem": 88,
+    "changeGDP": 0.87
+  },
+  {
+    "State": "VA",
+    "Population": 8525660,
+    "IncParty": "D",
+    "ProbabilityDem": 92,
+    "changeGDP": 1.83
+  },
+  {
+    "State": "WA",
+    "Population": 7530552,
+    "IncParty": "D",
+    "ProbabilityDem": 95,
+    "changeGDP": 3.23
+  },
+  {
+    "State": "AZ",
+    "Population": 7123898,
+    "IncParty": "R",
+    "ProbabilityDem": 50,
+    "changeGDP": 2.47
+  },
+  {
+    "State": "MA",
+    "Population": 6895917,
+    "IncParty": "D",
+    "ProbabilityDem": 95,
+    "changeGDP": 3.37
+  },
+  {
+    "State": "TN",
+    "Population": 6782564,
+    "IncParty": "R",
+    "ProbabilityDem": 27,
+    "changeGDP": 1.63
+  },
+  {
+    "State": "IN",
+    "Population": 6699629,
+    "IncParty": "D",
+    "ProbabilityDem": 50,
+    "changeGDP": 1.2
+  },
+  {
+    "State": "MO",
+    "Population": 6135888,
+    "IncParty": "D",
+    "ProbabilityDem": 50,
+    "changeGDP": 1.5
+  },
+  {
+    "State": "MD",
+    "Population": 6079602,
+    "IncParty": "D",
+    "ProbabilityDem": 95,
+    "changeGDP": 0.8
+  },
+  {
+    "State": "MN",
+    "Population": 5628162,
+    "IncParty": "D",
+    "ProbabilityDem": 70,
+    "changeGDP": 1.43
+  },
+  {
+    "State": "CT",
+    "Population": 3588683,
+    "IncParty": "D",
+    "ProbabilityDem": 95,
+    "changeGDP": 0.3
+  },
+  {
+    "State": "UT",
+    "Population": 3159345,
+    "IncParty": "R",
+    "ProbabilityDem": 5,
+    "changeGDP": 3.03
+  },
+  {
+    "State": "NV",
+    "Population": 3056824,
+    "IncParty": "R",
+    "ProbabilityDem": 50,
+    "changeGDP": 2.53
+  },
+  {
+    "State": "MS",
+    "Population": 2982785,
+    "IncParty": "R",
+    "ProbabilityDem": 5,
+    "changeGDP": 2.3
+  },
+  {
+    "State": "NM",
+    "Population": 2090708,
+    "IncParty": "D",
+    "ProbabilityDem": 95,
+    "changeGDP": 2.47
+  },
+  {
+    "State": "NE",
+    "Population": 1932549,
+    "IncParty": "R",
+    "ProbabilityDem": 5,
+    "changeGDP": 0
+  },
+  {
+    "State": "WV",
+    "Population": 1803077,
+    "IncParty": "D",
+    "ProbabilityDem": 58,
+    "changeGDP": 4
+  },
+  {
+    "State": "HI",
+    "Population": 1426393,
+    "IncParty": "D",
+    "ProbabilityDem": 95,
+    "changeGDP": 1.93
+  },
+  {
+    "State": "ME",
+    "Population": 1341582,
+    "IncParty": "I",
+    "ProbabilityDem": 85,
+    "changeGDP": 2.53
+  },
+  {
+    "State": "MT",
+    "Population": 1062330,
+    "IncParty": "D",
+    "ProbabilityDem": 73,
+    "changeGDP": 0
+  },
+  {
+    "State": "RI",
+    "Population": 1061712,
+    "IncParty": "D",
+    "ProbabilityDem": 95,
+    "changeGDP": 2.2
+  },
+  {
+    "State": "DE",
+    "Population": 971180,
+    "IncParty": "D",
+    "ProbabilityDem": 95,
+    "changeGDP": 2.87
+  },
+  {
+    "State": "ND",
+    "Population": 755238,
+    "IncParty": "D",
+    "ProbabilityDem": 67,
+    "changeGDP": 2.1
+  },
+  {
+    "State": "VT",
+    "Population": 623960,
+    "IncParty": "I",
+    "ProbabilityDem": 95,
+    "changeGDP": 2.27
+  },
+  {
+    "State": "WY",
+    "Population": 573720,
+    "IncParty": "R",
+    "ProbabilityDem": 5,
+    "changeGDP": 5.47
+  }
+]
