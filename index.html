@@ -1,8 +1,9 @@
 <script src="https://d3js.org/d3.v4.min.js"></script>
-<p style="font-family:avenir; font-size:25; text-align:center"> 2018 United States Senate Election Forecast vs. State Economic Growth </p>
 
-<div style="text-align:center">
-<svg width="730" height="730"></svg>
+<div class="graph" style="text-align:center">
+<p style="font-family:avenir; font-weight: bold; font-size:30; text-align:center"> 2018 United States Senate Election Predictions vs. State Economic Growth </p>
+    
+<svg style="background-color:white" width="600" height="600"></svg>
 
 <script>
 var stateData;
@@ -11,13 +12,14 @@ d3.json("projectdata.json", function(data) {
     console.log(stateData);
     showGraph();
 });
+    
 function showGraph() {
     var svg = d3.select("svg");
-    var xscale = d3.scaleLinear().domain([0,5.5]).range([0,640]);
-    var yscale = d3.scaleLinear().domain([0,100]).range([640,0]);
-    var rscale = d3.scaleLinear().domain([500000,40000000]).range([10,40]);
+    var xscale = d3.scaleLinear().domain([0,5.5]).range([0,540]);
+    var yscale = d3.scaleLinear().domain([0,100]).range([540,0]);
+    var rscale = d3.scaleLinear().domain([500000,40000000]).range([10,36]);
     var xaxis = d3.axisBottom(xscale);
-    svg.append("g").attr("transform","translate(50,650)").call(xaxis);
+    svg.append("g").attr("transform","translate(50,550)").call(xaxis);
     var yaxis = d3.axisLeft(yscale);
     svg.append("g").attr("transform","translate(50,10)").call(yaxis);
 
@@ -29,15 +31,15 @@ function showGraph() {
         .style("font-size","16");
 
     svg.append("text").text("Change in State GDP  (%)")
-        .attr("x","250")
-        .attr("y","695")
+        .attr("x","210")
+        .attr("y","595")
         .style("font-family","avenir")
         .style("font-size","16");
     
     for (var i=0; i < stateData.length; i++) {
         svg.append("circle")
-        .attr("cx", 50+xscale(stateData[i].changeGDP))
-        .attr("cy", 10+yscale(stateData[i].ProbabilityDem))
+        .attr("cx", 50 + xscale(stateData[i].changeGDP))
+        .attr("cy", 10 + yscale(stateData[i].ProbabilityDem))
         .attr("r", rscale(stateData[i].Population))
         .attr("fill",function(d) {
             if (stateData[i].IncParty == "D") {
@@ -51,13 +53,145 @@ function showGraph() {
             }
         })
         .attr("stroke","black");
-        svg.append("text").text(stateData[i].State)
-        .attr("x", 50 + rscale(stateData[i].Population) + xscale(stateData[i].changeGDP))
-        .attr("y", 20 + yscale(stateData[i].ProbabilityDem))
-        .style("font-family", "avenir");
-        
     }
-
+    for (var j=4; j<9 ; j++) {
+        svg.append("text").text(stateData[j].State)
+        .attr("x", 38+xscale(stateData[j].changeGDP))
+        .attr("y",yscale(stateData[j].ProbabilityDem)+15)
+        .style("font-family", "avenir");
+    }
+    svg.append("text").text(stateData[0].State)
+        .attr("x", 40+xscale(stateData[0].changeGDP))
+        .attr("y",yscale(stateData[0].ProbabilityDem)-11)
+        .style("font-family", "avenir");
+    svg.append("text").text(stateData[1].State)
+        .attr("x", 40+xscale(stateData[1].changeGDP))
+        .attr("y",yscale(stateData[1].ProbabilityDem)+12)
+        .style("font-family", "avenir");
+    svg.append("text").text(stateData[2].State)
+        .attr("x", 40+xscale(stateData[2].changeGDP))
+        .attr("y",yscale(stateData[2].ProbabilityDem)+15)
+        .style("font-family", "avenir");
+    svg.append("text").text(stateData[3].State)
+        .attr("x", 38+xscale(stateData[3].changeGDP))
+        .attr("y",yscale(stateData[3].ProbabilityDem)-15)
+        .style("font-family", "avenir");
+    svg.append("text").text(stateData[9].State)
+        .attr("x", 51+xscale(stateData[9].changeGDP))
+        .attr("y",yscale(stateData[9].ProbabilityDem)+15)
+        .style("font-family", "avenir");
+    svg.append("text").text(stateData[10].State)
+        .attr("x", 12+xscale(stateData[10].changeGDP))
+        .attr("y",yscale(stateData[10].ProbabilityDem)+15)
+        .style("font-family", "avenir");
+    svg.append("text").text(stateData[11].State)
+        .attr("x",18+xscale(stateData[11].changeGDP))
+        .attr("y",yscale(stateData[11].ProbabilityDem)-7)
+        .style("font-family", "avenir");
+    svg.append("text").text(stateData[12].State)
+        .attr("x", 40+xscale(stateData[12].changeGDP))
+        .attr("y",yscale(stateData[12].ProbabilityDem)+15)
+        .style("font-family", "avenir");
+    svg.append("text").text(stateData[13].State)
+        .attr("x", 40+xscale(stateData[13].changeGDP))
+        .attr("y",yscale(stateData[13].ProbabilityDem)+15)
+        .style("font-family", "avenir");
+    svg.append("text").text(stateData[14].State)
+        .attr("x", 36+xscale(stateData[14].changeGDP))
+        .attr("y",yscale(stateData[14].ProbabilityDem)+15)
+        .style("font-family", "avenir");
+    svg.append("text").text(stateData[15].State)
+        .attr("x", 37+xscale(stateData[15].changeGDP))
+        .attr("y",yscale(stateData[15].ProbabilityDem)+15)
+        .style("font-family", "avenir");
+    svg.append("text").text(stateData[16].State)
+        .attr("x", 37+xscale(stateData[16].changeGDP))
+        .attr("y",yscale(stateData[16].ProbabilityDem)+15)
+        .style("font-family", "avenir");
+    svg.append("text").text(stateData[17].State)
+        .attr("x", 39+xscale(stateData[17].changeGDP))
+        .attr("y",yscale(stateData[17].ProbabilityDem)+15)
+        .style("font-family", "avenir");
+    svg.append("text").text(stateData[18].State)
+        .attr("x", 39+xscale(stateData[18].changeGDP))
+        .attr("y",yscale(stateData[18].ProbabilityDem)+15)
+        .style("font-family", "avenir");
+    svg.append("text").text(stateData[19].State)
+        .attr("x", 39+xscale(stateData[19].changeGDP))
+        .attr("y",yscale(stateData[19].ProbabilityDem)+15)
+        .style("font-family", "avenir");
+    svg.append("text").text(stateData[20].State)
+        .attr("x", 38+xscale(stateData[20].changeGDP))
+        .attr("y",yscale(stateData[20].ProbabilityDem)+15)
+        .style("font-family", "avenir");
+    svg.append("text").text(stateData[21].State)
+        .attr("x", 75+xscale(stateData[21].changeGDP))
+        .attr("y",yscale(stateData[21].ProbabilityDem)-15)
+        .style("font-family", "avenir");
+    svg.append("line")
+        .attr("x1",61+xscale(stateData[21].changeGDP))
+        .attr("y1",yscale(stateData[21].ProbabilityDem)+6)
+        .attr("x2", 88+xscale(stateData[21].changeGDP))
+        .attr("y2",yscale(stateData[21].ProbabilityDem)-12)
+        .style("stroke","black");
+    svg.append("text").text(stateData[22].State)
+        .attr("x", 62+xscale(stateData[22].changeGDP))
+        .attr("y",yscale(stateData[22].ProbabilityDem)+15)
+        .style("font-family", "avenir");
+    svg.append("text").text(stateData[23].State)
+        .attr("x", 62+xscale(stateData[23].changeGDP))
+        .attr("y",yscale(stateData[23].ProbabilityDem)+15)
+        .style("font-family", "avenir");
+    svg.append("text").text(stateData[24].State)
+        .attr("x", 42+xscale(stateData[24].changeGDP))
+        .attr("y",yscale(stateData[24].ProbabilityDem)+15)
+        .style("font-family", "avenir");
+    svg.append("text").text(stateData[25].State)
+        .attr("x", 60+xscale(stateData[25].changeGDP))
+        .attr("y",yscale(stateData[25].ProbabilityDem)+25)
+        .style("font-family", "avenir");
+    svg.append("text").text(stateData[26].State)
+        .attr("x", 62+xscale(stateData[26].changeGDP))
+        .attr("y",yscale(stateData[26].ProbabilityDem)+15)
+        .style("font-family", "avenir");
+    svg.append("text").text(stateData[27].State)
+        .attr("x", 38+xscale(stateData[27].changeGDP))
+        .attr("y",yscale(stateData[27].ProbabilityDem)+65)
+        .style("font-family", "avenir");
+    svg.append("line")
+        .attr("x1",46+xscale(stateData[27].changeGDP))
+        .attr("y1",yscale(stateData[21].ProbabilityDem)+53)
+        .attr("x2", 46+xscale(stateData[27].changeGDP))
+        .attr("y2",yscale(stateData[27].ProbabilityDem)+20)
+        .style("stroke","black");
+    svg.append("text").text(stateData[28].State)
+        .attr("x", 128+xscale(stateData[28].changeGDP))
+        .attr("y",yscale(stateData[28].ProbabilityDem)+55)
+        .style("font-family", "avenir");
+    svg.append("line")
+        .attr("x1",56+xscale(stateData[28].changeGDP))
+        .attr("y1",yscale(stateData[28].ProbabilityDem)+19)
+        .attr("x2", 126+xscale(stateData[28].changeGDP))
+        .attr("y2",yscale(stateData[28].ProbabilityDem)+50)
+        .style("stroke","black");
+    svg.append("text").text(stateData[29].State)
+        .attr("x", 62+xscale(stateData[29].changeGDP))
+        .attr("y",yscale(stateData[29].ProbabilityDem)+15)
+        .style("font-family", "avenir");
+    svg.append("text").text(stateData[30].State)
+        .attr("x", 48+xscale(stateData[30].changeGDP))
+        .attr("y",yscale(stateData[30].ProbabilityDem)+93)
+        .style("font-family", "avenir");
+    svg.append("line")
+        .attr("x1",48+xscale(stateData[30].changeGDP))
+        .attr("y1",yscale(stateData[30].ProbabilityDem)+19)
+        .attr("x2", 56+xscale(stateData[30].changeGDP))
+        .attr("y2",yscale(stateData[30].ProbabilityDem)+80)
+        .style("stroke","black");
+    svg.append("text").text(stateData[31].State)
+        .attr("x", 38+xscale(stateData[31].changeGDP))
+        .attr("y",yscale(stateData[31].ProbabilityDem)+35)
+        .style("font-family", "avenir");
 }    
 
 
