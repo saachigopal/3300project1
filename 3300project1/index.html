@@ -99,8 +99,6 @@ d3.queue()
 .defer(d3.csv, "statedata.csv", parseRow)
 .await(callback);
 
-d3.json("us.json", callback);
-
 function callback (error, rawMap, rawUSDA) {
   console.log("Code in the call-back function is only executed when every data file loads.");
 
