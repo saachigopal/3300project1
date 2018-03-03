@@ -1,9 +1,19 @@
+<html>
+<head>
+<link href="https://fonts.googleapis.com/css?family=Barlow+Condensed" rel="stylesheet">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/styles/default.min.css">
+<script src="http://d3js.org/topojson.v2.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/highlight.min.js"></script>
 <script src="https://d3js.org/d3.v4.min.js"></script>
-
-<div class="graph" style="text-align:center">
-<p style="font-family:avenir; font-weight: bold; font-size:30; text-align:center"> 2018 United States Senate Election Predictions vs. State Economic Growth </p>
-    
-<svg style="background-color:white" width="600" height="600"></svg>
+<style>
+path.state { fill: #ccc; stroke: #888; }
+</style>
+</head>
+<body>
+<p style="font-family:avenir; font-size:28; text-align:center"> 2018 United States Senate Election Forecast vs. State Economic Growth </p>
+<p style="font-family:avenir; font-size:18; text-align:center"> A depiction of midterm senate election predictions based on the state's percent change in GDP during the first year of Donald Trump's presidency.</p> <br>
+<div style="text-align:center">
+<svg width="730" height="730"></svg>
 
 <script>
 var stateData;
@@ -12,34 +22,30 @@ d3.json("projectdata.json", function(data) {
     console.log(stateData);
     showGraph();
 });
-    
 function showGraph() {
     var svg = d3.select("svg");
-    var xscale = d3.scaleLinear().domain([0,5.5]).range([0,540]);
-    var yscale = d3.scaleLinear().domain([0,100]).range([540,0]);
-    var rscale = d3.scaleLinear().domain([500000,40000000]).range([10,36]);
+    var xscale = d3.scaleLinear().domain([0,5.5]).range([0,640]);
+    var yscale = d3.scaleLinear().domain([0,100]).range([640,0]);
+    var rscale = d3.scaleLinear().domain([500000,40000000]).range([10,40]);
     var xaxis = d3.axisBottom(xscale);
-    svg.append("g").attr("transform","translate(50,550)").call(xaxis);
+    svg.append("g").attr("transform","translate(50,650)").call(xaxis);
     var yaxis = d3.axisLeft(yscale);
     svg.append("g").attr("transform","translate(50,10)").call(yaxis);
-
     svg.append("text").text("Probability of Democratic Victory (%)")
         .attr("x","0")
         .attr("y","25")
         .attr("transform","translate(-10,460) rotate(-90)")
         .style("font-family","avenir")
         .style("font-size","16");
-
     svg.append("text").text("Change in State GDP  (%)")
-        .attr("x","210")
-        .attr("y","595")
+        .attr("x","250")
+        .attr("y","695")
         .style("font-family","avenir")
         .style("font-size","16");
-    
     for (var i=0; i < stateData.length; i++) {
         svg.append("circle")
-        .attr("cx", 50 + xscale(stateData[i].changeGDP))
-        .attr("cy", 10 + yscale(stateData[i].ProbabilityDem))
+        .attr("cx", 50+xscale(stateData[i].changeGDP))
+        .attr("cy", 10+yscale(stateData[i].ProbabilityDem))
         .attr("r", rscale(stateData[i].Population))
         .attr("fill",function(d) {
             if (stateData[i].IncParty == "D") {
@@ -54,6 +60,7 @@ function showGraph() {
         })
         .attr("stroke","black");
     }
+    
     for (var j=4; j<9 ; j++) {
         svg.append("text").text(stateData[j].State)
         .attr("x", 38+xscale(stateData[j].changeGDP))
@@ -77,7 +84,7 @@ function showGraph() {
         .attr("y",yscale(stateData[3].ProbabilityDem)-15)
         .style("font-family", "avenir");
     svg.append("text").text(stateData[9].State)
-        .attr("x", 51+xscale(stateData[9].changeGDP))
+        .attr("x", 53+xscale(stateData[9].changeGDP))
         .attr("y",yscale(stateData[9].ProbabilityDem)+15)
         .style("font-family", "avenir");
     svg.append("text").text(stateData[10].State)
@@ -191,10 +198,73 @@ function showGraph() {
     svg.append("text").text(stateData[31].State)
         .attr("x", 38+xscale(stateData[31].changeGDP))
         .attr("y",yscale(stateData[31].ProbabilityDem)+35)
-        .style("font-family", "avenir");
-}    
-
-
-
+        .style("font-family", "avenir"); 
+}
 </script>
+<p style="font-family:avenir; font-size:18; text-align:center"> Circle color corresponds to party of incumbent senator (blue: D, red: R, purple: I) while size indicates state population. </p>
 </div>
+
+<div id="map" style="text-align:center"></div>
+
+<script>
+var svg = d3.select("#map").append("svg").attr("height","1000").attr("width","1000");
+svg.append("text").text("Map visualization of party win probability for states with senate seats in contention")
+    .attr("x",480)
+    .attr("y", 120)
+    .style("font-family", "avenir")
+    .style("font-size", 18)
+    .attr("alignment-baseline", "middle")
+    .attr("text-anchor", "middle"); 
+var projection = d3.geoAlbersUsa().scale(75);
+var pathGenerator = d3.geoPath().projection(projection);
+var sequentialColors = ["#ffffff", "#bf0004","#f47373","#B0CEFF","#7ba0ed","#3b66bf","#2236b7","#0d0061"];
+var percentScale = d3.scaleLinear().domain([0, 5, 45, 50, 60, 70, 85, 100]).range(sequentialColors);
+var states;
+var usdaAtlas;
+    
+var parseRow = function(row) {
+  return row;
+}
+d3.queue()
+.defer(d3.json,"us.json")
+.defer(d3.csv, "statedata.csv", parseRow)
+.await(callback);
+
+function callback (error, rawMap, rawUSDA) {
+  console.log("Code in the call-back function is only executed when every data file loads.");
+usdaAtlas = d3.map(rawUSDA, function(d){
+  return Number(d.FIPS);
+});
+  states = topojson.feature(rawMap, rawMap.objects.states);
+  showMap(percentScale, "ProbabilityOfDemWin");
+}
+function showMap(scale, variable) {
+  // Create or modify paths for each country
+  projection.fitExtent([[0,0], [svg.attr("width"), svg.attr("height")]], states);
+  pathGenerator = d3.geoPath().projection(projection);
+  
+  var paths = svg.selectAll("path.state").data(states.features);
+  paths = paths.enter().append("path").attr("class", "state")
+  .merge(paths);
+  paths
+  .style("fill", function (state) {
+      var stateData = usdaAtlas.get(state.id)
+      
+      if (stateData){
+          return scale(stateData[variable]);
+      }
+  })
+  .attr("d", function (state) {
+      return pathGenerator(state);
+  });
+    svg.append("text").text("Darker shade corresponds to a higher probability of that party winning the contested seats.")
+      .attr("x", 150)
+      .attr("y", 920)
+      .attr("font-family", "avenir")
+      .attr("font-size", 18);  
+}
+console.log("Code after the d3.json() call is executed immediately.");
+</script>
+
+</body>
+</html>
