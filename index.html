@@ -10,6 +10,8 @@ path.state { fill: #ccc; stroke: #888; }
 </style>
 </head>
 <body>
+<div style="background-image: url(american_home.jpg); height: 130px; width: 1500px; background-size: cover">
+</div>
 <p style="font-family:avenir; font-size:28; text-align:center"> 2018 United States Senate Election Forecast vs. State Economic Growth </p>
 <p style="font-family:avenir; font-size:18; text-align:center"> A depiction of midterm senate election predictions based on the state's percent change in GDP during the first year of Donald Trump's presidency.</p> <br>
 <div style="text-align:center">
@@ -42,6 +44,13 @@ function showGraph() {
         .attr("y","695")
         .style("font-family","avenir")
         .style("font-size","16");
+    svg.append("line")
+        .attr("x1",xscale(stateData[10].changeGDP)-236)
+        .attr("y1",yscale(stateData[10].ProbabilityDem)+10)
+        .attr("x2", 400+xscale(stateData[10].changeGDP))
+        .attr("y2",yscale(stateData[10].ProbabilityDem)+10)
+        .style("stroke","silver")
+        .style("stroke-width", 8);
     for (var i=0; i < stateData.length; i++) {
         svg.append("circle")
         .attr("cx", 50+xscale(stateData[i].changeGDP))
@@ -52,7 +61,7 @@ function showGraph() {
                 return "#139FF1";
             }
             else if (stateData[i].IncParty == "R") {
-                return "#E00018";
+                return "#cc0020";
             }
             else {
                 return "#4B0082";
@@ -88,8 +97,8 @@ function showGraph() {
         .attr("y",yscale(stateData[9].ProbabilityDem)+15)
         .style("font-family", "avenir");
     svg.append("text").text(stateData[10].State)
-        .attr("x", 12+xscale(stateData[10].changeGDP))
-        .attr("y",yscale(stateData[10].ProbabilityDem)+15)
+        .attr("x", 14+xscale(stateData[10].changeGDP))
+        .attr("y",yscale(stateData[10].ProbabilityDem))
         .style("font-family", "avenir");
     svg.append("text").text(stateData[11].State)
         .attr("x",18+xscale(stateData[11].changeGDP))
@@ -201,15 +210,18 @@ function showGraph() {
         .style("font-family", "avenir"); 
 }
 </script>
-<p style="font-family:avenir; font-size:18; text-align:center"> Circle color corresponds to party of incumbent senator (blue: D, red: R, purple: I) while size indicates state population. </p>
+<p style="font-family:avenir; font-size:18; text-align:center"> Circle color corresponds to party of incumbent senator (blue: D, red: R, purple: I) while size indicates state population.</p>
+<p style="font-family:avenir; font-size:18; text-align:center"> The probability of Democratic victory was calculated from the aggregate of reputed polling data.</p>
 </div>
-
+<div style="height: 50px"></div>
+<div style="background-image: url(banner2.jpg); height: 100px; width: 1500px;">
+</div>
 <div id="map" style="text-align:center"></div>
-
+    
 <script>
-var svg = d3.select("#map").append("svg").attr("height","1000").attr("width","1000");
-svg.append("text").text("Map visualization of party win probability for states with senate seats in contention")
-    .attr("x",480)
+var svg = d3.select("#map").append("svg").attr("height","950").attr("width","950");
+svg.append("text").text("Map visualization of Democratic victory probability for states with senate seats in contention")
+    .attr("x",520)
     .attr("y", 120)
     .style("font-family", "avenir")
     .style("font-size", 18)
@@ -217,8 +229,7 @@ svg.append("text").text("Map visualization of party win probability for states w
     .attr("text-anchor", "middle"); 
 var projection = d3.geoAlbersUsa().scale(75);
 var pathGenerator = d3.geoPath().projection(projection);
-var sequentialColors = ["#ffffff", "#bf0004","#f47373","#B0CEFF","#7ba0ed","#3b66bf","#2236b7","#0d0061"];
-var percentScale = d3.scaleLinear().domain([0, 5, 45, 50, 60, 70, 85, 100]).range(sequentialColors);
+var percentScale = d3.scaleLinear().domain([0, 95]).range(['#ffffff','#03377a']);
 var states;
 var usdaAtlas;
     
@@ -249,7 +260,6 @@ function showMap(scale, variable) {
   paths
   .style("fill", function (state) {
       var stateData = usdaAtlas.get(state.id)
-      
       if (stateData){
           return scale(stateData[variable]);
       }
@@ -257,11 +267,44 @@ function showMap(scale, variable) {
   .attr("d", function (state) {
       return pathGenerator(state);
   });
-    svg.append("text").text("Darker shade corresponds to a higher probability of that party winning the contested seats.")
-      .attr("x", 150)
-      .attr("y", 920)
+    svg.append("image")
+        .attr("xlink:href","us-quarter-clipart-1.png")
+        .attr("x", 160)
+        .attr("y", 400)
+        .attr("width", 40)
+        .attr("height", 40);
+    svg.append("image")
+        .attr("xlink:href","us-quarter-clipart-1.png")
+        .attr("x", 665)
+        .attr("y", 420)
+        .attr("width", 30)
+        .attr("height", 30);
+    svg.append("image")
+        .attr("xlink:href","us-quarter-clipart-1.png")
+        .attr("x", 230)
+        .attr("y", 530)
+        .attr("width", 40)
+        .style("height", 40);
+    svg.append("image")
+        .attr("xlink:href","us-quarter-clipart-1.png")
+        .attr("x", 560)
+        .attr("y", 460)
+        .attr("width", 40)
+        .attr("height", 40);
+    svg.append("text").text("Darker shade corresponds to a higher probability of the Democratic party winning the contested seats.")
+      .attr("x", 520)
+      .attr("y", 850)
       .attr("font-family", "avenir")
-      .attr("font-size", 18);  
+      .attr("font-size", 18)
+      .attr("alignment-baseline", "middle")
+      .attr("text-anchor", "middle");  
+    svg.append("text").text("Toss-up states, where the probability of either party winning is 50%, are designated with a coin.")
+      .attr("x", 520)
+      .attr("y", 890)
+      .attr("font-family", "avenir")
+      .attr("font-size", 18)
+      .attr("alignment-baseline", "middle")
+      .attr("text-anchor", "middle");  
 }
 console.log("Code after the d3.json() call is executed immediately.");
 </script>
