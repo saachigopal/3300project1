@@ -50,7 +50,9 @@ function showGraph() {
         .attr("x2", 400+xscale(stateData[10].changeGDP))
         .attr("y2",yscale(stateData[10].ProbabilityDem)+10)
         .style("stroke","silver")
-        .style("stroke-width", 8);
+        .style("stroke-width", 2)
+        .style("stroke-dasharray", "3 3");
+
     for (var i=0; i < stateData.length; i++) {
         svg.append("circle")
         .attr("cx", 50+xscale(stateData[i].changeGDP))
@@ -69,7 +71,7 @@ function showGraph() {
         })
         .attr("stroke","black");
     }
-    
+
     for (var j=4; j<9 ; j++) {
         svg.append("text").text(stateData[j].State)
         .attr("x", 38+xscale(stateData[j].changeGDP))
@@ -207,7 +209,7 @@ function showGraph() {
     svg.append("text").text(stateData[31].State)
         .attr("x", 38+xscale(stateData[31].changeGDP))
         .attr("y",yscale(stateData[31].ProbabilityDem)+35)
-        .style("font-family", "avenir"); 
+        .style("font-family", "avenir");
 }
 </script>
 <p style="font-family:avenir; font-size:18; text-align:center"> Circle color corresponds to party of incumbent senator (blue: D, red: R, purple: I) while size indicates state population.</p>
@@ -217,7 +219,7 @@ function showGraph() {
 <div style="background-image: url(banner2.jpg); height: 100px; width: 1500px;">
 </div>
 <div id="map" style="text-align:center"></div>
-    
+
 <script>
 var svg = d3.select("#map").append("svg").attr("height","950").attr("width","950");
 svg.append("text").text("Map visualization of Democratic victory probability for states with senate seats in contention")
@@ -226,13 +228,13 @@ svg.append("text").text("Map visualization of Democratic victory probability for
     .style("font-family", "avenir")
     .style("font-size", 18)
     .attr("alignment-baseline", "middle")
-    .attr("text-anchor", "middle"); 
+    .attr("text-anchor", "middle");
 var projection = d3.geoAlbersUsa().scale(75);
 var pathGenerator = d3.geoPath().projection(projection);
-var percentScale = d3.scaleLinear().domain([0, 95]).range(['#ffffff','#03377a']);
+var percentScale = d3.scaleLinear().domain([0, 4, 20, 50, 70, 85, 100]).range(["#fff7fb","#a6bddb","#7A96B9","#5A7BA8", "#456C9D", "#25528C","#03377A"]);
 var states;
 var usdaAtlas;
-    
+
 var parseRow = function(row) {
   return row;
 }
@@ -242,7 +244,6 @@ d3.queue()
 .await(callback);
 
 function callback (error, rawMap, rawUSDA) {
-  console.log("Code in the call-back function is only executed when every data file loads.");
 usdaAtlas = d3.map(rawUSDA, function(d){
   return Number(d.FIPS);
 });
@@ -250,10 +251,9 @@ usdaAtlas = d3.map(rawUSDA, function(d){
   showMap(percentScale, "ProbabilityOfDemWin");
 }
 function showMap(scale, variable) {
-  // Create or modify paths for each country
   projection.fitExtent([[0,0], [svg.attr("width"), svg.attr("height")]], states);
   pathGenerator = d3.geoPath().projection(projection);
-  
+
   var paths = svg.selectAll("path.state").data(states.features);
   paths = paths.enter().append("path").attr("class", "state")
   .merge(paths);
@@ -297,16 +297,15 @@ function showMap(scale, variable) {
       .attr("font-family", "avenir")
       .attr("font-size", 18)
       .attr("alignment-baseline", "middle")
-      .attr("text-anchor", "middle");  
+      .attr("text-anchor", "middle");
     svg.append("text").text("Toss-up states, where the probability of either party winning is 50%, are designated with a coin.")
       .attr("x", 520)
       .attr("y", 890)
       .attr("font-family", "avenir")
       .attr("font-size", 18)
       .attr("alignment-baseline", "middle")
-      .attr("text-anchor", "middle");  
+      .attr("text-anchor", "middle");
 }
-console.log("Code after the d3.json() call is executed immediately.");
 </script>
 
 </body>
